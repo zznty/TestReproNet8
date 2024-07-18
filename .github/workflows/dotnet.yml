@@ -1,0 +1,39 @@
+name: .NET
+
+on:
+  push:
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+    build-1:
+        name: Build that doesnt work
+        runs-on: ubuntu-latest
+        continue-on-error: true
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v2
+              with:
+                dotnet-version: |
+                    8.0.x
+            - name: Restore dependencies
+              run: dotnet restore --locked-mode
+            - name: Publish
+              run: dotnet publish --no-restore -o pub --sc
+    build-2:
+        name: Build that works
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v2
+              with:
+                dotnet-version: |
+                    8.0.x
+            - name: Restore dependencies
+              run: dotnet restore --locked-mode -r win-x64
+            - name: Publish
+              run: dotnet publish --no-restore -o pub --sc
