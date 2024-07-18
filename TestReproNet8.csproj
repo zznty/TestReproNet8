@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetFrameworks>net7.0-windows10.0.22621.0;net8.0-windows10.0.22621.0</TargetFrameworks>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <SupportedOSPlatform>10.0.19041.0</SupportedOSPlatform>
     <ImplicitUsings>enable</ImplicitUsings>

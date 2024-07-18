@@ -9,9 +9,13 @@ env:
 
 jobs:
     build-1:
-        name: Build that doesnt work
+        name: Build
         runs-on: ubuntu-latest
         continue-on-error: true
+        strategy:
+          matrix:
+            dotnet: ['8', '7']
+            restore-rid: ['', '-r win-x64']
         steps:
             - uses: actions/checkout@v3
             - name: Setup .NET
@@ -20,20 +24,6 @@ jobs:
                 dotnet-version: |
                     8.0.x
             - name: Restore dependencies
-              run: dotnet restore --locked-mode
+              run: dotnet restore --locked-mode ${{ matrix.restore-rid }}
             - name: Publish
-              run: dotnet publish --no-restore -o pub --sc
-    build-2:
-        name: Build that works
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v2
-              with:
-                dotnet-version: |
-                    8.0.x
-            - name: Restore dependencies
-              run: dotnet restore --locked-mode -r win-x64
-            - name: Publish
-              run: dotnet publish --no-restore -o pub --sc
+              run: dotnet publish --no-restore -o pub --sc -f net${{ matrix.dotnet }}-windows10.0.22621.0
